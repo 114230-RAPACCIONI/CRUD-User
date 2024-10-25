@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  pruebatecnica:
+    build:
+      context: "/Users/tomi/Desktop/GitHub/CRUD-User/Backend/CRUD-User"
+      dockerfile: "PruebaTecnica/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/PruebaTecnica.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "pruebatecnica:dev"
+    ports: []
+    volumes:
+    - "/Users/tomi/.nuget/packages:/home/app/.nuget/packages"
+    - "/Users/tomi/Desktop/GitHub/CRUD-User/Backend/CRUD-User/PruebaTecnica:/app:rw"
+    - "/Users/tomi/Desktop/GitHub/CRUD-User/Backend/CRUD-User:/src:rw"
+    working_dir: "/app"

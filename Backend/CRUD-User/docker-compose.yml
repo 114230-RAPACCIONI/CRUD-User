@@ -1,0 +1,36 @@
+﻿services:
+  pruebatecnica:
+    image: pruebatecnica
+    build:
+      context: .
+      dockerfile: PruebaTecnica/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-database-users
+    environment:
+      - ConnectionStrings__ConnectionDb=Server=mysql-database-users;Database=users;User Id=user;Password=1234;Port=3306;
+    networks:
+      - users-network
+
+  mysql-database-users:
+    image: mysql:latest
+    restart: always
+    container_name: mysql-database-users
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: users
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - users-network
+
+volumes:
+  mysql-data:
+networks:
+  users-network:
+    driver: bridge
