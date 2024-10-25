@@ -1,0 +1,30 @@
+<div class="container">
+    <div>
+        <h2>Listado de usuarios</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of users; track $index) {
+                <tr>
+                    <th scope="row">{{ $index + 1 }}</th>
+                    <td> {{ user.name }}</td>
+                    <td> {{ user.email }}</td>
+                    <td> {{ user.password }}</td>
+                    <td>
+                        <button class="btn btn-warning me-2" [routerLink]="['/form', user.idUser]">Editar</button>
+                        <button class="btn btn-danger me-2" (click)="deleteUser(user.idUser)">Eliminar</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+    <form #form="ngForm" (ngSubmit)="sendForm(form)">
+        <h1>Datos del usuario</h1>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre:</label>
+            <input #name="ngModel"
+                [ngClass]="{'is-invalid': name.invalid  && (name.dirty || name.touched),'is-valid': name.valid }"
+                type="text" class="form-control" id="name" name="name" [(ngModel)]="user.name" required minlength="3">
+            @if(name.invalid && (name.dirty || name.touched)){
+            @if(name.getError('minlength')) {
+            <div class="text-danger">El nombre es obligatorio</div>
+            }@else{
+            <div class="text-danger">Debe contener como minimo 3 caracteres.</div>
+            }}
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input #email="ngModel" type="text" id="email" class="form-control" name="email" [(ngModel)]="user.email" required>
+            @if(email.getError('required') && email.dirty){
+            <div class="text-danger">El email es obligatorio.</div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input #password="ngModel" type="password" id="password" class="form-control" name="password" [(ngModel)]="user.password"
+                required>
+            @if(password.getError('required') && password.dirty){
+            <div class="text-danger">La contraseña es obligatorio.</div>
+            }
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-3">Crear</button>
+        </div>
+    </form>
+</div>

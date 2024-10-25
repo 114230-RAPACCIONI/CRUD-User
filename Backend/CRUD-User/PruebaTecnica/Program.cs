@@ -16,10 +16,8 @@ builder.Services.AddSwaggerGen();
 // conexion a la base de datos
 builder.Services.AddDbContext<ContextDB>(options =>
 {
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("ConnectionDb"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("ConnectionDb"))
-    );
+    options.UseMySql(builder.Configuration.GetConnectionString("ConnectionDb"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("ConnectionDb")));
 });
 
 // registramos servicios y repositorios
@@ -52,6 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
