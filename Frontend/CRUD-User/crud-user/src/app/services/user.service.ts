@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../models/user';
+import { map, Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +12,27 @@ export class UserService {
 
 
   getAllUsers(): Observable<User[]> {
-    const url = "http://localhost:5070/users/getAllUser";
+    const url = "http://localhost:5288/users/getAllUser";
     return this.http.get<User[]>(url);
   } 
 
   getUserById(idUser: number): Observable<User> {
-    const url = `http://localhost:5070/users/getUserById/${idUser}`;
+    const url = `http://localhost:5288/users/getUserById/${idUser}`;
     return this.http.get<User>(url);
   }
 
   createUser(user: User): Observable<User> {
-    const url = "http://localhost:5070/users/createUser"
+    const url = "http://localhost:5288/users/createUser"
     return this.http.post<User>(url, user);
   }
 
   updateUser(user: User): Observable<User> {
-    const url = `http://localhost:5070/users/updateUser/${user.idUser}`;
+    const url = `http://localhost:5288/users/updateUser/${user.id}`;
     return this.http.put<User>(url, user);
   }
 
-  deleteUser(idUser: number): Observable<User> {
-    const url = `http://localhost:5070/users/deleteUser/${idUser}`;
+  deleteUsers(idUser: number): Observable<User> {
+    const url = `http://localhost:5288/users/deleteUser/${idUser}`;
     return this.http.delete<User>(url);
   } 
 }

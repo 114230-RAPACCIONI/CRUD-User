@@ -1,6 +1,7 @@
 using System.Net;
 using AutoMapper;
 using PruebaTecnica.Dtos;
+using PruebaTecnica.Models;
 using PruebaTecnica.Repositories;
 using PruebaTecnica.Response;
 
@@ -49,61 +50,111 @@ public class UserServiceImpl : IUserService
     {
         if (userDto == null)
         {
-            throw new Exception("El usuario es nulo");
+            return new ApiResponse<UserDto>
+            {
+                Data = null,
+                Message = "El usuario es nulo",
+                StatusCode = HttpStatusCode.BadRequest
+            };
         }
 
-        Models.User user = _mapper.Map<Models.User>(userDto);
-        Models.User userResponse = await _userRepository.createUser(user);
-
-        if (userResponse == null)
+        User user = _mapper.Map<User>(userDto);
+        
+        try
         {
-            var resp = new ApiResponse<UserDto>();
-            resp.SetError("Error interno", HttpStatusCode.InternalServerError);
+            User userResponse = await _userRepository.createUser(user);
+
+            if (userResponse == null)
+            {
+                var resp = new ApiResponse<UserDto>();
+                resp.SetError("Error interno", HttpStatusCode.InternalServerError);
+            }
+
+            UserDto userDtoMap = _mapper.Map<UserDto>(userResponse);
+
+            return new ApiResponse<UserDto>
+            {
+                Data = userDtoMap
+            };
         }
-
-        UserDto userDtoMap = _mapper.Map<UserDto>(userResponse);
-
-        return new ApiResponse<UserDto>
+        catch (Exception e)
         {
-            Data = userDtoMap
-        };
+            return new ApiResponse<UserDto>
+            {
+                Data = null,
+                Message = "Error interno",
+                StatusCode = HttpStatusCode.InternalServerError
+            };
+        }
     }
 
     public async Task<ApiResponse<UserDto>> updateUser(int idUser, UserDto userDto)
     {
+        
         if (userDto == null)
         {
-            throw new Exception("El usuario es nulo");
+            return new ApiResponse<UserDto>
+            {
+                Data = null,
+                Message = "El usuario es nulo",
+                StatusCode = HttpStatusCode.BadRequest
+            };
         }
         
-        Models.User user = _mapper.Map<Models.User>(userDto);
+        User user = _mapper.Map<User>(userDto);
 
-        Models.User userResponse = await _userRepository.updateUser(idUser, user);
-
-        if (userResponse == null)
+        try
         {
-            var resp = new ApiResponse<UserDto>();
-            resp.SetError("Error interno", HttpStatusCode.InternalServerError);
+            User userResponse = await _userRepository.updateUser(idUser, user);
+
+            if (userResponse == null)
+            {
+                var resp = new ApiResponse<UserDto>();
+                resp.SetError("Error interno", HttpStatusCode.InternalServerError);
+            }
+
+            UserDto userDtoMap = _mapper.Map<UserDto>(userResponse);
+
+            return new ApiResponse<UserDto>
+            {
+                Data = userDtoMap
+            };
         }
-
-        UserDto userDtoMap = _mapper.Map<UserDto>(userResponse);
-        
-        return new ApiResponse<UserDto>
+        catch (Exception e)
         {
-            Data = userDtoMap
-        };
+            return new ApiResponse<UserDto>
+            {
+                Data = null,
+                Message = "Error interno",
+                StatusCode = HttpStatusCode.InternalServerError
+            };
+        }
     }
 
     public async Task<ApiResponse<HttpStatusCode>> deleteUser(int idUser)
     {
-        bool result = await _userRepository.deleteUser(idUser);
-
-        if (result)
+        if (idUser <= 0)
         {
+            return new ApiResponse<HttpStatusCode>
+            {
+                Data = HttpStatusCode.NotFound,
+                Message = "El ID del usuario debe ser mayor a 0",
+            };
+        }
+
+        try
+        {
+            bool result = await _userRepository.deleteUser(idUser);
+            
             return new ApiResponse<HttpStatusCode> { Data = HttpStatusCode.OK };
         }
-        else {
-            throw new Exception("El usuario no fue encontrado");
+        catch (Exception e)
+        {
+            return new ApiResponse<HttpStatusCode>
+            {
+                Data = HttpStatusCode.NotFound,
+                Message = e.Message,
+            };
         }
     }
 }

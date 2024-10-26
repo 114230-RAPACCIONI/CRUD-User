@@ -13,13 +13,27 @@ public class UserRepositoryImpl : IUserRepository
         _context = context;
     }
 
+    /**
+     * Obtiene todos los usuarios dentro de la base de datos.
+     * @return Lista de usuarios
+     */
     public async Task<List<User>> getAllUsers()
     {
         return await _context.Users.ToListAsync();
     }
 
+    /**
+     * Obtiene un usuario por su identificador.
+     * @param idUser Identificador.
+     * @return el usuario si se encuentra, exception de lo contrario
+     */
     public async Task<User> getUserById(int idUser)
     {
+        if (idUser <= 0)
+        {
+            throw new Exception("El ID de usuario debe ser mayor a 0");
+        }
+        
         var user = await _context.Users
             .Where(u => u.Id.Equals(idUser))
             .FirstOrDefaultAsync();
@@ -32,6 +46,12 @@ public class UserRepositoryImpl : IUserRepository
         throw new Exception("Usuario no encontrado en la base de datos");
     }
 
+    /**
+     * crea un nuevo usuario en la base de datos.
+     * @param user objeto a crear.
+     * @return usuario creado.
+     * @throws exception si usuario es nulo
+     */
     public async Task<User> createUser(User user)
     {
         if (user == null)
@@ -39,14 +59,30 @@ public class UserRepositoryImpl : IUserRepository
             throw new Exception("Usuario es nulo");
         }
 
+        if (string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+        {
+            throw new Exception("Todos los campos son requeridos");
+        }
+        
         await _context.AddAsync(user);
         await _context.SaveChangesAsync();
 
         return user;
     }
 
+    /**
+     * actualiza un usuario en la base de datos.
+     * @param idUser identificador
+     * @param user objeto a actualizar.
+     * @return usuario actualizado.
+     * @throws exception si usuario es nulo
+     */
     public async Task<User> updateUser(int idUser, User user)
     {
+        if (idUser <= 0)
+        {
+            throw new Exception("El ID de usuario debe ser mayor a 0");
+        }
         if (user == null)
         { 
             throw new Exception("Usuario es nulo");
@@ -72,8 +108,18 @@ public class UserRepositoryImpl : IUserRepository
 
     }
 
+    /**
+     * elimina un usuario en la base de datos.
+     * @param idUser objeto a crear.
+     * @return true si se elimino correctamewnte el usuario.
+     */
     public async Task<bool> deleteUser(int idUser)
     {
+        if (idUser <= 0)
+        {
+            throw new Exception("El ID de usuario debe ser mayor a 0");
+        }
+        
         var user = await _context.Users.FindAsync(idUser);
 
         if (user == null)
