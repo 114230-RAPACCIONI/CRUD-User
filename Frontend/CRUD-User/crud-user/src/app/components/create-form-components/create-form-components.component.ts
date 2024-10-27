@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './create-form-components.component.css'
 })
 export class CreateFormComponentsComponent implements OnInit {
-  
+
   user: User = new User();
   isEdit: boolean = false;
   id: number = 0;
@@ -28,7 +28,8 @@ export class CreateFormComponentsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRouter.paramMap.subscribe((data) => {
       const idParam = data.get('id');
-      if(idParam){
+      console.log("id param: " + idParam)
+      if (idParam) {
         this.id = +idParam;
         this.isEdit = true;
         this.getById(this.id);
@@ -36,11 +37,14 @@ export class CreateFormComponentsComponent implements OnInit {
     })
   }
 
-  getById(id: number){
+  getById(id: number) {
     this.subscription.add(
       this.service.getUserById(id).subscribe({
         next: (data) => {
           this.user = data
+          if (!this.user.id) {
+            alert("Error: el ID de usuario no esta definido");
+          }
         },
         error: (err) => {
           alert("Error al cargar el usuario");
@@ -51,7 +55,7 @@ export class CreateFormComponentsComponent implements OnInit {
 
   sendForm(form: NgForm) {
     if (form.valid) {
-      if (this.isEdit) {
+      if (this.isEdit && this.user.id) {
         this.subscription.add(
           this.service.updateUser(this.user).subscribe({
             next: (data) => alert("Usuario actualizado"),
