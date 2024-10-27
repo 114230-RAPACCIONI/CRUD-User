@@ -1,30 +1,30 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { User, UserDto } from '../../models/user.model';
+import { User, UserUpdateDto } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list-component',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, NgbModalModule],
   templateUrl: './list-component.component.html',
   styleUrl: './list-component.component.css'
 })
 export class ListComponentComponent implements OnInit {
 
   private readonly service = inject(UserService);
-  private readonly modalService = inject(NgbModal);
-  @ViewChild('editModal') editModal!: TemplateRef<any>
 
   users: User[] = [];
-  editUser: UserDto = {
+
+  editUser: UserUpdateDto = {
     name: '',
     email: '',
     password: ''
-  }
+  };
+
   updateSucces: boolean = false;
 
 
@@ -45,7 +45,6 @@ export class ListComponentComponent implements OnInit {
 
   deleteUsers(idUser?: number) {
     if (!idUser) return;
-    console.log("eliminando usuario con id: " + idUser);
     this.service.deleteUsers(idUser).subscribe({
       next: (data) => {
         console.log("Respuesta: " + data);
@@ -59,13 +58,26 @@ export class ListComponentComponent implements OnInit {
     });
   }
 
-  updateUser(user: User) {
+  openModal(user: User) {
     this.editUser = {
       name: user.name,
       email: user.email,
       password: user.password
     }
-    this.modalService.open(this.editModal);
+
+    this.updateSucces = false;
+
+    const modalElement = document.getElementById('editUserModal');
+    if(modalElement){
+      modalElement.classList.add('show', 'd-block');
+    }
+  }
+
+  modalClose(){
+    const modalElement = document.getElementById('editUserModal');
+    if(modalElement){
+      modalElement.classList.remove('show', 'd-block');
+    }
   }
 
   savedChanges() {
@@ -73,10 +85,10 @@ export class ListComponentComponent implements OnInit {
       next: (data) => {
         this.updateSucces = true;
         this.getAllUsers();
-        this.modalService.dismissAll();
+        this.modalClose();
       },
       error: () => {
-        alert("Error al actualizar el usuario.")
+        alert("Error al actualizar el usuario.");
       }
     })
   }

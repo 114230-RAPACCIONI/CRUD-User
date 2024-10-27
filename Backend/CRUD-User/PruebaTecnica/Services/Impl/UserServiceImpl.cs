@@ -7,6 +7,9 @@ using PruebaTecnica.Response;
 
 namespace PruebaTecnica.Services.Impl;
 
+/*
+ * Implementacion del servicio de usuarios.
+ */
 public class UserServiceImpl : IUserService
 {
     private readonly IUserRepository _userRepository;
@@ -18,6 +21,10 @@ public class UserServiceImpl : IUserService
         _mapper = mapper;
     }
 
+    /**
+     * Obtiene todos los usuarios y los mapea a DTOs para la respuesta.
+     * @return ApiResponse de la lista de UserDto.
+     */
     public async Task<ApiResponse<List<UserDto>>> getAllUsers()
     {
         var response = new ApiResponse<List<UserDto>>();
@@ -29,6 +36,11 @@ public class UserServiceImpl : IUserService
 
     }
 
+    /*
+     * Obtiene un usuario por su identificador y lo mapea a su DTO.
+     * @param idUser Identificador del usuario.
+     * @return ApiResponse con el UserDto, o un error si no se encuentra el resultado.
+     */
     public async Task<ApiResponse<UserDto>> getUserById(int idUser)
     {
         var response = new ApiResponse<UserDto>();
@@ -46,6 +58,11 @@ public class UserServiceImpl : IUserService
         }
     }
 
+    /*
+     * Crea un usuario a partir de su DTO y lo mapea para la respuesta.
+     * @param userDto Datos del usuario a crear.
+     * @return ApirResponse con UserDto del usuario creado.
+     */
     public async Task<ApiResponse<UserDto>> createUser(UserDto userDto)
     {
         if (userDto == null)
@@ -88,10 +105,16 @@ public class UserServiceImpl : IUserService
         }
     }
 
-    public async Task<ApiResponse<UserDto>> updateUser(int idUser, UserDto userDto)
+    /*
+     * Actualiza los datos de un usuario existente usuando su identificador.
+     * @param idUser Identificador de usuario.
+     * @param userUpdateDto Datos del usuario a actualizar.
+     * @return ApirResponse con UserUpdateDto del usuario actualizado.
+     */
+    public async Task<ApiResponse<UserDto>> updateUser(int idUser, UserUpdateDto userUpdateDto)
     {
         
-        if (userDto == null)
+        if (userUpdateDto == null)
         {
             return new ApiResponse<UserDto>
             {
@@ -101,7 +124,7 @@ public class UserServiceImpl : IUserService
             };
         }
         
-        User user = _mapper.Map<User>(userDto);
+        User user = _mapper.Map<User>(userUpdateDto);
 
         try
         {
@@ -131,6 +154,11 @@ public class UserServiceImpl : IUserService
         }
     }
 
+    /*
+     * Elimina un usuario de la base de datos usando su identificador.
+     * @param idUser Identificador del usuario.
+     * @return ApiResponse con el codigo de estado HTTP. 
+     */
     public async Task<ApiResponse<HttpStatusCode>> deleteUser(int idUser)
     {
         if (idUser <= 0)

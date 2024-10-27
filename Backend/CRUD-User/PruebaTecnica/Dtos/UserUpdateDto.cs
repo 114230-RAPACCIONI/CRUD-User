@@ -1,20 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PruebaTecnica.Dtos;
 
 /*
- *  * Clase DTO para crear un usuario.
+ * Clase DTO para actualizar un usuario.
  */
-public class UserDto
+public class UserUpdateDto
 {
-    /*
-     * Identificador del usuario.
-     */
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-    
     /*
      * Nombre del usuario.
      */

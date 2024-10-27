@@ -4,6 +4,9 @@ using PruebaTecnica.Models;
 
 namespace PruebaTecnica.Repositories.impl;
 
+/*
+ * Implementaicion del repositorio de usuarios.
+ */
 public class UserRepositoryImpl : IUserRepository
 {
     private readonly ContextDB _context;
@@ -15,7 +18,7 @@ public class UserRepositoryImpl : IUserRepository
 
     /**
      * Obtiene todos los usuarios dentro de la base de datos.
-     * @return Lista de usuarios
+     * @return Lista de usuarios.
      */
     public async Task<List<User>> getAllUsers()
     {
@@ -24,8 +27,8 @@ public class UserRepositoryImpl : IUserRepository
 
     /**
      * Obtiene un usuario por su identificador.
-     * @param idUser Identificador.
-     * @return el usuario si se encuentra, exception de lo contrario
+     * @param idUser Identificador del usuairio.
+     * @return Usuario si se encuentra, Exception de lo contrario.
      */
     public async Task<User> getUserById(int idUser)
     {
@@ -47,10 +50,10 @@ public class UserRepositoryImpl : IUserRepository
     }
 
     /**
-     * crea un nuevo usuario en la base de datos.
-     * @param user objeto a crear.
-     * @return usuario creado.
-     * @throws exception si usuario es nulo
+     * Crea un nuevo usuario en la base de datos.
+     * @param user Objeto User a crear.
+     * @return User Objeto creado.
+     * @throws Exception si usuario es nulo.
      */
     public async Task<User> createUser(User user)
     {
@@ -71,11 +74,11 @@ public class UserRepositoryImpl : IUserRepository
     }
 
     /**
-     * actualiza un usuario en la base de datos.
-     * @param idUser identificador
-     * @param user objeto a actualizar.
-     * @return usuario actualizado.
-     * @throws exception si usuario es nulo
+     * Actualiza un usuario en la base de datos.
+     * @param idUser Identificador del usuairio.
+     * @param user Objeto User a actualizar.
+     * @return user Objeto User actualizado.
+     * @throws Exception si usuario es nulo.
      */
     public async Task<User> updateUser(int idUser, User user)
     {
@@ -109,9 +112,9 @@ public class UserRepositoryImpl : IUserRepository
     }
 
     /**
-     * elimina un usuario en la base de datos.
-     * @param idUser objeto a crear.
-     * @return true si se elimino correctamewnte el usuario.
+     * Elimina un usuario en la base de datos.
+     * @param idUser Objeto a eliminar.
+     * @return true Si se elimino correctamewnte el usuario.
      */
     public async Task<bool> deleteUser(int idUser)
     {

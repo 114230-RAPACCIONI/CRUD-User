@@ -8,7 +8,7 @@ export class User {
 }
 
 
-export class UserDto {
+export class UserUpdateDto {
 
     name: string = '';
     email: string = '';

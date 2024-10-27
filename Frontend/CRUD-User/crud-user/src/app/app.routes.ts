@@ -5,5 +5,5 @@ import { CreateFormComponentsComponent } from './components/create-form-componen
 export const routes: Routes = [
     {path: 'list', component: ListComponentComponent},
     {path: 'form', component: CreateFormComponentsComponent},
-    {path: 'form/:idUser', component: CreateFormComponentsComponent}
+    {path: 'form/:id', component: CreateFormComponentsComponent}
 ];

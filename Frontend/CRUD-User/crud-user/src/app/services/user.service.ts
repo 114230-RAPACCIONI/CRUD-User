@@ -28,6 +28,7 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     const url = `http://localhost:5288/users/updateUser/${user.id}`;
+    console.log("user id ",  url)
     return this.http.put<User>(url, user);
   }
 

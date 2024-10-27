@@ -2,6 +2,9 @@ using System.Net;
 
 namespace PruebaTecnica.Response;
 
+/*
+ * Clase que representa la respuesta de la API.
+ */
 public class ApiResponse<T>
 {
     public T Data { get; set; }
