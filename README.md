@@ -5,3 +5,4 @@ Les cuento cómo me fue con la prueba técnica. Pude armar la API en .NET usando
 No llegué a agregar Docker por falta de tiempo, aunque lo tengo en cuenta y puedo sumarlo sin problema. En cuanto al frontend, armé una visual básica para probar y manipular los datos, aunque reconozco que el diseño todavía podría pulirse un poco más.
 
 #### Gracias por la oportunidad de realizar la prueba técnica.
+
